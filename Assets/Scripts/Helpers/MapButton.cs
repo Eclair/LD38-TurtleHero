@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class TradeButton : MonoBehaviour {
+public class MapButton : MonoBehaviour {
 
 	public GameObject highlight;
 
@@ -10,10 +11,10 @@ public class TradeButton : MonoBehaviour {
 	void Start () {
 		highlight.SetActive(false);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
 	void OnMouseEnter() {
@@ -28,6 +29,11 @@ public class TradeButton : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		// TODO: GO TO TRADE
+		UIHelper.instance.showDestinationMenu();
+		highlight.SetActive(false);
+
+		// TODO: GO TO MAP
+//		UIHelper.instance.setSailingMode();
+//		SceneManager.LoadScene("Traveling");
 	}
 }

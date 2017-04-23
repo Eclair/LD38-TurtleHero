@@ -28,14 +28,18 @@ public class UIHelper : MonoBehaviour {
 	public GameObject buildMenuObject;
 	public GameObject upgradeMenuObject;
 	public GameObject upgradeHQObject;
+	public GameObject destinationMenu;
+	public GameObject autotradeMenu;
+	public GameObject villageTradeMenu;
 
 	// Use this for initialization
 	void Start () {
 		Message.color = Color.clear;
-		isMenuOpened = false;
 		buildMenuObject.SetActive(false);
 		upgradeMenuObject.SetActive(false);
 		upgradeHQObject.SetActive(false);
+		destinationMenu.SetActive(false);
+		villageTradeMenu.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -117,6 +121,45 @@ public class UIHelper : MonoBehaviour {
 	/** Closes HQ Upgrade Menu **/
 	public void closeUpgradeHQMenu() {
 		upgradeHQObject.SetActive(false);
+		isMenuOpened = false;
+	}
+
+	/** Show Destination Select Menu **/
+	public void showDestinationMenu() {
+		destinationMenu.GetComponent<DestinationMenu>().updateUI();
+		destinationMenu.SetActive(true);
+		isMenuOpened = true;
+	}
+
+	/** Close Destination Select Menu **/
+	public void closeDestinationMenu() {
+		destinationMenu.SetActive(false);
+		isMenuOpened = false;
+	}
+
+	/** Show Autotrade Menu **/
+	public void showAutotradeMenu(int coinsEarned) {
+		autotradeMenu.GetComponent<AutotradeMenu>().updateWithCoinsEarned(coinsEarned);
+		autotradeMenu.SetActive(true);
+		isMenuOpened = true;
+	}
+
+	/** Close Autotrade Menu **/
+	public void closeAutotradeMenu() {
+		autotradeMenu.SetActive(false);
+		isMenuOpened = false;
+	}
+
+	/** Show Village Trade Menu **/
+	public void showVillageTradeMenu() {
+		villageTradeMenu.GetComponent<VillageTradeMenu>().updatePricesUI();
+		villageTradeMenu.SetActive(true);
+		isMenuOpened = true;
+	}
+
+	/** Close Village Trade Menu **/
+	public void closeVillageTradeMenu() {
+		villageTradeMenu.SetActive(false);
 		isMenuOpened = false;
 	}
 }

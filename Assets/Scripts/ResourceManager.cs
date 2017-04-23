@@ -31,6 +31,11 @@ public class ResourceManager : MonoBehaviour {
 	public Text stoneText;
 	public Text oreText;
 
+	/** Adds Coins **/
+	public void addCoins(int coins) {
+		this.coins += coins;
+	}
+
 	/** Checks if user has enough resources to purchase tower **/
 	public bool hasEnoughResourcesFor(TowerBlueprint towerBlueprint) {
 		return (
@@ -84,4 +89,100 @@ public class ResourceManager : MonoBehaviour {
 		stoneText.text = "" + stone;
 		oreText.text = "" + ore;
 	}
+
+	#region Trade Functions
+
+	public void buyWoodFromVillage() {
+		float price = Village.instance.tradeTable[0, 1];
+		if (coins < price) {
+			UIHelper.instance.showError("Insufficient Funds");
+			return;
+		}
+
+		coins -= (int)price;
+		wood += 1;
+		UIHelper.instance.showNormalMessage("1 Wood Purchased");
+	}
+
+	public void sellWoodToVillage() {
+		if (wood <= 0) {
+			UIHelper.instance.showError("Not Enough Lumber");
+			return;
+		}
+
+		wood -= 1;
+		coins += (int)Village.instance.tradeTable[0, 0];
+		UIHelper.instance.showNormalMessage("1 Wood Sold");
+	}
+
+	public void buyStoneFromVillage() {
+		float price = Village.instance.tradeTable[1, 1];
+		if (coins < price) {
+			UIHelper.instance.showError("Insufficient Funds");
+			return;
+		}
+
+		coins -= (int)price;
+		stone += 1;
+		UIHelper.instance.showNormalMessage("1 Stone Purchased");
+	}
+
+	public void sellStoneToVillage() {
+		if (stone <= 0) {
+			UIHelper.instance.showError("Not Enough Stones");
+			return;
+		}
+
+		stone -= 1;
+		coins += (int)Village.instance.tradeTable[1, 0];
+		UIHelper.instance.showNormalMessage("1 Stone Sold");
+	}
+
+	public void buySteelFromVillage() {
+		float price = Village.instance.tradeTable[2, 1];
+		if (coins < price) {
+			UIHelper.instance.showError("Insufficient Funds");
+			return;
+		}
+
+		coins -= (int)price;
+		ore += 1;
+		UIHelper.instance.showNormalMessage("1 Steel Purchased");
+	}
+
+	public void sellSteelToVillage() {
+		if (ore <= 0) {
+			UIHelper.instance.showError("Not Enough Steel");
+			return;
+		}
+
+		ore -= 1;
+		coins += (int)Village.instance.tradeTable[2, 0];
+		UIHelper.instance.showNormalMessage("1 Steel Sold");
+	}
+
+	public void buyRecruitFromVillage() {
+		float price = Village.instance.tradeTable[3, 1];
+		if (coins < price) {
+			UIHelper.instance.showError("Insufficient Funds");
+			return;
+		}
+
+		coins -= (int)price;
+		population += 1;
+		UIHelper.instance.showNormalMessage("1 Recruit Hired");
+	}
+
+	public void sellRecruitToVillage() {
+		if (population <= 0) {
+			UIHelper.instance.showError("Not Enough Recruits");
+			return;
+		}
+
+		population -= 1;
+		coins += (int)Village.instance.tradeTable[3, 0];
+		UIHelper.instance.showNormalMessage("1 Recruit Fired");
+	}
+
+	#endregion
 }
