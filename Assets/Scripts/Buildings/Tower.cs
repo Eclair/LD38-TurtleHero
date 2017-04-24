@@ -15,31 +15,58 @@ public class Tower : MonoBehaviour {
 	public TowerBlueprint towerUpgrade;
 	public float attack;
 	public GameObject howerIndicator;
+	public float cooldown = 3f;
+
+	private float sinceLastAttack = 0;
 
 	void Start() {
 		howerIndicator.SetActive(false);
 	}
 
+	void Update() {
+		if (GlobalMapManager.instance.sailing) {
+			sinceLastAttack += Time.deltaTime;
+		}
+	}
+
+	public bool isReadyToFire() {
+		return sinceLastAttack > cooldown;
+	}
+
+	public void fireAtEnemy(Enemy enemy) {
+		enemy.getHit((int)attack);
+		sinceLastAttack = 0;
+	}
+
+	public void setHighlighted(bool highlighted) {
+		howerIndicator.SetActive(highlighted);
+	}
+
+	// BUILDING
+
 	void OnMouseEnter() {
-		if (UIHelper.instance.isMenuOpened || !UIHelper.instance.isBuildingMode) {
+		if (UIHelper.instance.isMenuOpened || GlobalMapManager.instance.sailing) {
 			return;
 		}
-		howerIndicator.SetActive(true);
+		setHighlighted(true);
 	}
 
 	void OnMouseExit() {
-		howerIndicator.SetActive(false);
+		if (GlobalMapManager.instance.sailing) {
+			return;
+		}
+		setHighlighted(false);
 	}
 
 	void OnMouseDown() {
 		// DO NOT REACT WHEN OVERLAPED WITH UI or SAILING
-		if (UIHelper.instance.isMenuOpened || !UIHelper.instance.isBuildingMode) {
+		if (UIHelper.instance.isMenuOpened || GlobalMapManager.instance.sailing) {
 			return;
 		}
 		// TODO: SELECT/BUILD/UPGRADE?
 		TowerSpot spot = GetComponentInParent<TowerSpot>();
 		if (spot != null) {
-			howerIndicator.SetActive(false);
+			setHighlighted(false);
 			UpgradesManager.instance.onTowerSpotSelected(spot);
 		} else {
 			Debug.Log("Spot Not Found");

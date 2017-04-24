@@ -9,6 +9,8 @@ public class UpgradeHQMenu : MonoBehaviour {
 
 	[Header("UI")]
 	public Image hqImage;
+	public Text maxHpBoost;
+	public Text newAttack;
 
 	public GameObject coinIcon;
 	public Text coinText;
@@ -31,6 +33,8 @@ public class UpgradeHQMenu : MonoBehaviour {
 		HQUpgrade upgrade = spot.hq.GetComponent<HQ>().upgrade;
 		HQ newHQ = upgrade.hqPrefab.GetComponent<HQ>();
 		hqImage.sprite = newHQ.GetComponentInChildren<SpriteRenderer>().sprite;
+		maxHpBoost.text = "MaxHP +" + newHQ.additionalHullHp;
+		newAttack.text = "New Attack: " + newHQ.attack;
 
 		coinIcon.SetActive(upgrade.coinsCost > 0);
 		coinText.text = upgrade.coinsCost > 0 ? "" + upgrade.coinsCost : "";

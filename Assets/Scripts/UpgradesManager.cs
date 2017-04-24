@@ -31,7 +31,7 @@ public class UpgradesManager : MonoBehaviour {
 
 	/** Reacts on Tower or Empty spot selection and show build/upgrade menu **/
 	public void onTowerSpotSelected(TowerSpot towerSpot) {
-		if (towerSpot.tower != null && towerSpot.tower.GetComponent<Tower>().type != Tower.TowerType.None) {
+		if (towerSpot.tower != null && !towerSpot.isEmpty()) {
 			Tower tower = towerSpot.tower.GetComponent<Tower>();
 			if (tower.towerUpgrade.towerPrefab != null) {
 				UIHelper.instance.showUpgradeMenuFor(towerSpot);
@@ -105,6 +105,8 @@ public class UpgradesManager : MonoBehaviour {
 		GameObject newHQ = (GameObject)Instantiate(hq.upgrade.hqPrefab, hqSpot.transform);
 		ResourceManager.instance.hqLevel = newHQ.GetComponent<HQ>().level;
 		hqSpot.swapHQWithNew(newHQ);
+		Turtle.instance.maxHealth += newHQ.GetComponent<HQ>().additionalHullHp;
+		Turtle.instance.heal(Turtle.instance.maxHealth);
 		UIHelper.instance.showNormalMessage("HQ Upgraded to Level " + ResourceManager.instance.hqLevel);
 	}
 }

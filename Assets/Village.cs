@@ -20,8 +20,16 @@ public class Village : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Arrived to the village
+		Turtle.instance.unselectWeapon();
+		healTheTurtle();
 		awardPlayerRandomCoins();
 		generateTradePrices();
+	}
+
+	private void healTheTurtle() {
+		int healthRestored = Random.Range(2, 4) * Turtle.instance.getTurtleLevel();
+		Turtle.instance.heal(healthRestored);
+		UIHelper.instance.showNormalMessage("Hull Repaired for " + healthRestored + " HP");
 	}
 
 	private void awardPlayerRandomCoins() {

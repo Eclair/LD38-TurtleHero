@@ -36,6 +36,7 @@ public class GlobalMapManager : MonoBehaviour {
 		{60, 25, 25, 75, 40,  0}
 	};
 
+	public float totalDistance;
 	public float remainTravelTime;
 	public int fromPlace;
 	public int toPlace;
@@ -45,16 +46,12 @@ public class GlobalMapManager : MonoBehaviour {
 	public void startSailingTo(int place) {
 		fromPlace = currentPlace;
 		toPlace = place;
-		remainTravelTime = travelTime[fromPlace, toPlace];
+		totalDistance = travelTime[fromPlace, toPlace];
+		remainTravelTime = totalDistance;
 
 		UIHelper.instance.setSailingMode();
 		sailing = true;
 		SceneManager.LoadScene("Traveling");
-
-		// TODO: SET DESTINATION
-		// TODO: START SAILING
-		// TODO: DISABLE BUILDING MODE
-		// TODO: FIGHT!
 	}
 
 	// Use this for initialization
@@ -67,11 +64,8 @@ public class GlobalMapManager : MonoBehaviour {
 		if (sailing) {
 			if (remainTravelTime > 0) {
 				remainTravelTime -= Time.deltaTime;
-				Debug.Log("remainingTime: " + remainTravelTime);
-				// TODO: Update UI
 			} else {
 				// WE ARRIVED!!!!!
-				Debug.Log("we arrived!!");
 				currentPlace = toPlace;
 				sailing = false;
 				UIHelper.instance.setBuildingMode();

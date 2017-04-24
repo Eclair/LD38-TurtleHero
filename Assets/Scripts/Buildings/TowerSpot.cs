@@ -6,6 +6,10 @@ public class TowerSpot : MonoBehaviour {
 
 	public GameObject tower;
 
+	public bool isEmpty() {
+		return tower.GetComponent<Tower>().type == Tower.TowerType.None;
+	}
+
 	public void swapTowerWith(GameObject newTower) {
 		if (tower != null) {
 			Destroy(tower);
